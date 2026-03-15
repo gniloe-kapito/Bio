@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--bg:#0b0d12;
+--card:#121620;
+--border:#1f2633;
+--accent:#6c8cff;
+--accent2:#8fa6ff;
+--text:#e8ecf3;
+--muted:#8b93a7;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Inter,system-ui;
+background:var(--bg);
+color:var(--text);
+height:100vh;
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+canvas{
+position:fixed;
+inset:0;
+z-index:0;
+filter:blur(1px) contrast(110%);
+}
+
+.card{
+position:relative;
+z-index:2;
+width:420px;
+padding:48px 40px;
+border-radius:22px;
+
+/* glass background */
+background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+
+/* glass blur */
+backdrop-filter:blur(18px) saturate(140%);
+-webkit-backdrop-filter:blur(18px) saturate(140%);
+
+/* subtle border */
+border:1px solid rgba(255,255,255,0.08);
+
+/* deep shadow to lift from background */
+box-shadow:
+0 30px 80px rgba(0,0,0,0.65),
+0 0 40px rgba(120,140,255,0.08),
+inset 0 1px 0 rgba(255,255,255,0.15);
+
+/* smooth intro */
+animation:cardEnter 1s cubic-bezier(.2,.8,.2,1);
+
+/* allow glow overlay */
+overflow:hidden;
+}
+
+/* ambient glass glow removed as requested */
+
+/* light reflection sweep */ */
+.card::after{
+content:"";
+position:absolute;
+left:-40%;
+top:-60%;
+width:60%;
+height:220%;
+background:linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+transform:rotate(25deg);
+animation:glassSweep 8s linear infinite;
+pointer-events:none;
+}
+
+@keyframes glassSweep{
+0%{transform:translateX(-100%) rotate(25deg)}
+100%{transform:translateX(300%) rotate(25deg)}
+}
+
+@keyframes cardEnter{
+0%{opacity:0;transform:translateY(40px) scale(.96)}
+100%{opacity:1;transform:none}
+}
+
+.avatar{
+width:96px;
+height:96px;
+border-radius:50%;
+margin:auto;
+display:block;
+border:1px solid var(--border);
+}
+
+.name{
+font-family:"Space Grotesk";
+font-size:1.9rem;
+font-weight:700;
+margin-top:20px;
+text-align:center;
+letter-spacing:.05em;
+}
+
+.tag{
+text-align:center;
+margin-top:6px;
+color:var(--muted);
+font-size:.85rem;
+}
+
+.bio{
+margin-top:20px;
+line-height:1.7;
+font-size:.9rem;
+color:var(--muted);
+text-align:center;
+}
+
+.divider{
+height:1px;
+margin:28px 0;
+background:linear-gradient(90deg,transparent,#232a38,transparent);
+}
+
+.links{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.link{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:14px 16px;
+background:#151a25;
+border:1px solid var(--border);
+border-radius:10px;
+text-decoration:none;
+color:var(--text);
+transition:all .25s ease;
+position:relative;
+overflow:hidden;
+}
+
+/* animated gradient border */
+.link::after{
+content:"";
+position:absolute;
+inset:-1px;
+border-radius:10px;
+padding:1px;
+background:linear-gradient(120deg,transparent,var(--accent),transparent);
+-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+-webkit-mask-composite:xor;
+mask-composite:exclude;
+opacity:0;
+transition:.25s;
+}
+
+/* shine sweep */
+.link::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(110deg,transparent,rgba(255,255,255,.15),transparent);
+transform:translateX(-120%);
+}
+
+.link:hover{
+transform:translateY(-3px) scale(1.01);
+border-color:var(--accent);
+background:#1a2030;
+box-shadow:0 10px 30px rgba(108,140,255,.25);
+}
+
+.link:hover::before{
+animation:shine 1s;
+}
+
+.link:hover::after{
+opacity:1;
+}
+
+@keyframes shine{
+0%{transform:translateX(-120%)}
+100%{transform:translateX(120%)}
+}
+
+.footer{
+margin-top:26px;
+text-align:center;
+font-size:.7rem;
+color:#4d5568;
+letter-spacing:.15em;
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="card">
+
+<img class="avatar" src="https://api.dicebear.com/8.x/shapes/svg?seed=bio" />
+<!-- АВАТАР: замени src="..." на ссылку на свою картинку -->
+<!-- Например: src="https://i.imgur.com/XXXXX.jpg" -->
+
+<div class="name">YourName</div>
+<!-- ИМЯ / НИК: замени YourName -->
+
+<div class="tag">developer · gamer</div>
+<!-- ПОДПИСЬ: замени текст под именем -->
+
+<div class="bio">
+Building things on the internet.
+<br>
+Code, games and late night Discord servers.
+</div>
+<!-- БИО: замени текст описания (или удали весь блок) -->
+
+<div class="divider"></div>
+
+<div class="links">
+
+<!-- ССЫЛКИ: замени href="#" на свои ссылки -->
+<!-- Чтобы добавить соцсеть — скопируй строку <a class="link"...> и вставь ниже -->
+<!-- Иконки/названия можно менять как угодно -->
+
+<a class="link" href="https://discord.com/users/ВАШ_ID">Discord <span>→</span></a>
+<!-- Discord: замени ВАШ_ID на свой числовой ID -->
+
+<a class="link" href="https://t.me/ВАШ_ТЕГ">Telegram <span>→</span></a>
+<!-- Telegram: замени ВАШ_ТЕГ на свой @username -->
+
+<a class="link" href="https://steamcommunity.com/id/ВАШ_ID">Steam <span>→</span></a>
+<!-- Steam: замени ВАШ_ID на свой никнейм или ID -->
+
+</div>
+
+<div class="footer">BIO PAGE</div>
+<!-- ФУТЕР: можешь поменять текст или удалить -->
+
+</div>
+
+<script>
+
+const canvas=document.getElementById("bg")
+const ctx=canvas.getContext("2d")
+
+let w,h
+
+function resize(){
+w=canvas.width=window.innerWidth
+h=canvas.height=window.innerHeight
+}
+
+window.onresize=resize
+resize()
+
+const mouse={x:null,y:null}
+
+window.addEventListener("mousemove",e=>{
+mouse.x=e.clientX
+mouse.y=e.clientY
+})
+
+const particles=[]
+
+for(let i=0;i<140;i++){
+particles.push({
+ x:Math.random()*w,
+ y:Math.random()*h,
+ vx:(Math.random()-.5)*.35,
+ vy:(Math.random()-.5)*.35,
+ r:Math.random()*1.8+0.4
+})
+}
+
+function draw(){
+
+ctx.fillStyle="rgba(11,13,18,.35)"
+ctx.fillRect(0,0,w,h)
+
+particles.forEach(p=>{
+
+p.x+=p.vx
+p.y+=p.vy
+
+if(p.x<0||p.x>w)p.vx*=-1
+if(p.y<0||p.y>h)p.vy*=-1
+
+/* interaction with mouse */
+if(mouse.x){
+let dx=p.x-mouse.x
+let dy=p.y-mouse.y
+let dist=Math.sqrt(dx*dx+dy*dy)
+
+if(dist<120){
+p.x+=dx*.02
+p.y+=dy*.02
+}
+}
+
+/* bloom glow */
+ctx.shadowBlur=12
+ctx.shadowColor="rgba(120,140,255,.8)"
+
+ctx.beginPath()
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
+ctx.fillStyle="rgba(160,180,255,.9)"
+ctx.fill()
+
+ctx.shadowBlur=0
+
+particles.forEach(p2=>{
+let dx=p.x-p2.x
+let dy=p.y-p2.y
+let dist=Math.sqrt(dx*dx+dy*dy)
+
+if(dist<140){
+ctx.beginPath()
+ctx.moveTo(p.x,p.y)
+ctx.lineTo(p2.x,p2.y)
+ctx.strokeStyle="rgba(120,140,255,"+(1-dist/140)*.18+")"
+ctx.stroke()
+}
+
+/* lines to mouse */
+if(mouse.x && dist<140){
+let mdx=p.x-mouse.x
+let mdy=p.y-mouse.y
+let md=Math.sqrt(mdx*mdx+mdy*mdy)
+
+if(md<160){
+ctx.beginPath()
+ctx.moveTo(p.x,p.y)
+ctx.lineTo(mouse.x,mouse.y)
+ctx.strokeStyle="rgba(150,170,255,"+(1-md/160)*.25+")"
+ctx.stroke()
+}
+}
+
+})
+
+})
+
+requestAnimationFrame(draw)
+}
+
+ draw()
+
+</script>
+
+</body>
+</html>
